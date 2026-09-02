@@ -54,7 +54,7 @@ export default function Gallery() {
 
         <div
           ref={ref}
-          className="mt-10 grid grid-cols-2 gap-3 sm:auto-rows-[160px] sm:grid-cols-4 sm:gap-4"
+          className="mt-10 grid grid-cols-1 gap-3 sm:auto-rows-[160px] sm:grid-cols-4 sm:gap-4"
         >
           {PHOTOS.map((photo, i) => (
             <div
@@ -68,7 +68,11 @@ export default function Gallery() {
                 src={photo.src}
                 alt={photo.alt}
                 loading="lazy"
-                className="h-full w-full aspect-square object-cover transition-transform duration-500 ease-out sm:aspect-auto group-hover:scale-[1.04]"
+                className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] ${
+                  i === 0
+                    ? "aspect-[4/5] sm:aspect-auto"
+                    : "aspect-square sm:aspect-auto"
+                }`}
               />
             </div>
           ))}
