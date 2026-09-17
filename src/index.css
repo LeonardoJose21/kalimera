@@ -14,7 +14,6 @@
    paired with Work Sans (body). Self-hosting is better for production —
    this @import is the fastest way to get it working today. */
 
-
 :root {
   /* ── Color tokens — Santa Marta by way of Caribbean sea + clay roofs ── */
   --ink: #16231f;      /* near-black, warm teal-charcoal for text */
@@ -166,6 +165,28 @@ body {
   }
 }
 
+/* Floating WhatsApp widget — brand green, gentle recurring pulse ring */
+.whatsapp-fab {
+  transition: transform 160ms var(--ease-out);
+}
+.whatsapp-fab:hover {
+  transform: scale(1.06);
+}
+.whatsapp-fab:active {
+  transform: scale(0.94);
+}
+.whatsapp-fab-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #25d366;
+  animation: whatsapp-pulse 2.6s var(--ease-in-out) infinite;
+}
+@keyframes whatsapp-pulse {
+  0% { opacity: 0.55; transform: scale(1); }
+  70%, 100% { opacity: 0; transform: scale(1.7); }
+}
+
 /* Respect reduced motion: keep opacity, drop movement */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -176,9 +197,14 @@ body {
   .gallery-img,
   .mobile-panel,
   .lightbox-figure,
-  .flag-btn {
+  .flag-btn,
+  .whatsapp-fab {
     animation: none !important;
     transition: opacity 160ms linear !important;
     transform: none !important;
+  }
+  .whatsapp-fab-ring {
+    animation: none !important;
+    opacity: 0 !important;
   }
 }

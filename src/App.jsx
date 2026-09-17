@@ -117,8 +117,8 @@ const dict = {
       // REPLACE: paragraph is a reasonable starting draft, not verified copy
       body: "Comuna 4 queda cerca de todo: el centro histórico, la Quinta de San Pedro Alejandrino, la marina y las playas de la ciudad. Aquí tienes un apartamento completo — no una habitación de hotel — con piscina, zona social y todo lo necesario para sentirte en casa desde el primer día.",
       // REPLACE: these three numbers are placeholders
-      stat1Num: "500+", stat1Label: "huéspedes felices",
-      stat2Num: "5", stat2Label: "años recibiendo viajeros",
+      stat1Num: "250+", stat1Label: "huéspedes felices",
+      stat2Num: "6", stat2Label: "años recibiendo viajeros",
       stat3Num: `${GOOGLE_RATING}`, stat3Label: "calificación en Google",
     },
     amenities: {
@@ -176,8 +176,8 @@ const dict = {
     about: {
       heading: "Your own apartment in the heart of Santa Marta",
       body: "Comuna 4 sits close to everything: the historic center, the Quinta de San Pedro Alejandrino, the marina, and the city's beaches. Here you get a full apartment — not just a hotel room — with a pool, a social area, and everything you need to feel at home from day one.",
-      stat1Num: "500+", stat1Label: "happy guests",
-      stat2Num: "5", stat2Label: "years hosting travelers",
+      stat1Num: "250+", stat1Label: "happy guests",
+      stat2Num: "6", stat2Label: "years hosting travelers",
       stat3Num: `${GOOGLE_RATING}`, stat3Label: "rating on Google",
     },
     amenities: {
@@ -343,6 +343,14 @@ function IconChat({ className }) {
     </svg>
   );
 }
+function IconWhatsAppGlyph({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M16.04 3C9.37 3 3.96 8.4 3.96 15.06c0 2.2.58 4.28 1.68 6.12L3 29l8-2.58a12.9 12.9 0 0 0 5.04 1.02h.01c6.67 0 12.08-5.4 12.08-12.06C28.13 8.4 22.72 3 16.04 3Zm0 22.06h-.01c-1.7 0-3.36-.46-4.82-1.32l-.35-.2-3.55 1.14 1.16-3.46-.23-.36a9.9 9.9 0 0 1-1.55-5.3c0-5.5 4.5-10 10.05-10 2.69 0 5.21 1.05 7.11 2.95a9.95 9.95 0 0 1 2.94 7.05c0 5.5-4.5 10-10.05 10Z" />
+      <path d="M21.53 18.05c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.46-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.48 1.69.62.71.22 1.35.19 1.86.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z" />
+    </svg>
+  );
+}
 
 const AMENITY_ICONS = { pool: IconPool, desk: IconDesk, users: IconUsers, pin: IconPin, shield: IconShield };
 
@@ -412,13 +420,27 @@ function Button({ as: As = "a", variant = "primary", className = "", children, .
   );
 }
 
-function WhatsAppLink({ children, className, variant = "primary" }) {
-  const { t } = useLang();
+function WhatsAppLink({ children, className, variant = "primary", iconOnly = false }) {
+  const { lang, t } = useLang();
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.whatsappMessage)}`;
+  if (iconOnly) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.navCta}
+        className={`inline-flex h-10 px-4 rounded-2xl flex-shrink-0 items-center justify-center bg-[#0e5c55] text-[#fbf5ea] transition-colors hover:bg-[#0a453f] ${className || ""}`}
+      >
+        <span className="mr-1">{lang === "es" ? "Reservar" : "Book"}</span>
+        <IconWhatsAppGlyph className="h-[20px] w-[20px]" />
+      </a>
+    );
+  }
   return (
     <Button as="a" href={href} target="_blank" rel="noopener noreferrer" variant={variant} className={className}>
-      <IconChat className="h-4 w-4" />
       {children}
+      <IconWhatsAppGlyph className="h-6 w-6 flex-shrink-0" />
     </Button>
   );
 }
@@ -439,7 +461,7 @@ function RatingBadge({ className = "" }) {
             <IconStar key={i} className="h-3.5 w-3.5" />
           ))}
         </span>
-        <span className="text-xs text-[#16231f]/70 underline-offset-2 group-hover:underline">
+        <span className="text-[13px] text-[#16231f]/80 underline-offset-2 group-hover:underline">
           {t.hero.ratingLinkLabel} · {t.hero.ratingLabel}
         </span>
       </span>
@@ -483,15 +505,21 @@ function Header() {
 
         <nav className="hidden items-center gap-7 lg:flex">
           {links.map(([href, label]) => (
-            <a key={href} href={href} className="text-sm text-[#16231f]/75 transition-colors hover:text-[#0e5c55]">
+            <a key={href} href={href} className="text-[15px] font-medium text-[#16231f]/85 transition-colors hover:text-[#0e5c55]">
               {label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitch lang={lang} setLang={setLang} />
-          <WhatsAppLink className="hidden sm:inline-flex">{t.navCta}</WhatsAppLink>
+         <div className="hidden lg:block">
+          <WhatsAppLink>{t.navCta}</WhatsAppLink>
+        </div>
+
+        <div className="lg:hidden">
+          <WhatsAppLink iconOnly />
+        </div>
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
@@ -522,28 +550,77 @@ function Header() {
 }
 
 function LanguageSwitch({ lang, setLang }) {
+  const [open, setOpen] = useState(false);
+
+  const isSpanish = lang === "es";
+  const CurrentFlag = isSpanish ? FlagCO : FlagUS;
+
   return (
-    <div className="flex items-center gap-1 rounded-full border border-[#16231f]/15 p-1">
+    <div className="relative">
       <button
         type="button"
-        onClick={() => setLang("es")}
-        aria-pressed={lang === "es"}
-        aria-label="Español"
-        className={`flag-btn flex items-center gap-1.5 rounded-full px-2 py-1 ${lang === "es" ? "bg-[#16231f]/8" : "opacity-55"}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="flex h-10 items-center gap-2 rounded-full border border-[#16231f]/15 bg-[#fbf5ea] px-3 transition-colors hover:bg-[#f4eddf]"
       >
-        <FlagCO className="h-3.5 w-5 rounded-[2px]" />
-        <span className="text-xs font-medium">ES</span>
+        <CurrentFlag className="h-3.5 w-5 rounded-[2px]" />
+
+        <span className="text-xs font-medium text-[#16231f]">
+          {isSpanish ? "ES" : "EN"}
+        </span>
+
+        <svg
+          viewBox="0 0 12 12"
+          className={`h-3 w-3 text-[#16231f]/60 transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path d="m3 4.5 3 3 3-3" />
+        </svg>
       </button>
-      <button
-        type="button"
-        onClick={() => setLang("en")}
-        aria-pressed={lang === "en"}
-        aria-label="English"
-        className={`flag-btn flex items-center gap-1.5 rounded-full px-2 py-1 ${lang === "en" ? "bg-[#16231f]/8" : "opacity-55"}`}
-      >
-        <FlagUS className="h-3.5 w-5 rounded-[2px]" />
-        <span className="text-xs font-medium">EN</span>
-      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          className="absolute right-0 top-[calc(100%+0.4rem)] z-50 min-w-[100px] overflow-hidden rounded-xl border border-[#16231f]/10 bg-[#fbf5ea] p-1 shadow-lg"
+        >
+          <button
+            type="button"
+            role="option"
+            aria-selected={lang === "es"}
+            onClick={() => {
+              setLang("es");
+              setOpen(false);
+            }}
+            className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs transition-colors hover:bg-[#16231f]/5 ${
+              lang === "es" ? "bg-[#16231f]/5 font-semibold" : ""
+            }`}
+          >
+            <FlagCO className="h-3.5 w-5 rounded-[2px]" />
+            <span>ES</span>
+          </button>
+
+          <button
+            type="button"
+            role="option"
+            aria-selected={lang === "en"}
+            onClick={() => {
+              setLang("en");
+              setOpen(false);
+            }}
+            className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs transition-colors hover:bg-[#16231f]/5 ${
+              lang === "en" ? "bg-[#16231f]/5 font-semibold" : ""
+            }`}
+          >
+            <FlagUS className="h-3.5 w-5 rounded-[2px]" />
+            <span>EN</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -560,7 +637,7 @@ function Hero() {
           <h1 className="font-display mt-4 max-w-xl text-[2.5rem] leading-[1.08] text-[#16231f] sm:text-[3.1rem]">
             {t.hero.title}
           </h1>
-          <p className="font-display mt-5 max-w-md text-lg italic leading-relaxed text-[#16231f]/75">
+          <p className="font-display mt-5 max-w-md text-lg italic leading-relaxed text-[#16231f]/85">
             {t.hero.subtitle}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -606,13 +683,13 @@ function About() {
           <h2 className="font-display max-w-md text-3xl leading-tight text-[#16231f] sm:text-4xl">
             {t.about.heading}
           </h2>
-          <p className="mt-5 max-w-md leading-relaxed text-[#16231f]/75">{t.about.body}</p>
+          <p className="mt-5 max-w-md leading-relaxed text-[#16231f]/85">{t.about.body}</p>
           <dl className="mt-10 grid grid-cols-3 gap-6 border-t border-[#16231f]/15 pt-6">
             {stats.map(([num, label]) => (
               <div key={label}>
                 <dt className="sr-only">{label}</dt>
                 <dd className="font-display text-2xl text-[#0e5c55] sm:text-3xl">{num}</dd>
-                <p className="mt-1 text-xs leading-snug text-[#16231f]/65">{label}</p>
+                <p className="mt-1 text-sm leading-snug text-[#16231f]/75">{label}</p>
               </div>
             ))}
           </dl>
@@ -642,21 +719,23 @@ function Amenities() {
         </h2>
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2">
-          <div className="flex flex-col justify-between rounded-3xl bg-[#0e5c55] p-8 text-[#fbf5ea] lg:col-span-2 lg:row-span-2">
-            <FirstIcon className="h-9 w-9" />
-            <div className="mt-16">
+          <div className="flex min-h-[150px] flex-col justify-between rounded-3xl bg-[#0e5c55] p-6 text-[#fbf5ea] lg:col-span-2 lg:row-span-2">
+            <FirstIcon className="h-9 w-9 m-2" />
+            <div>
               <h3 className="font-display text-2xl">{first.title}</h3>
-              <p className="mt-2 max-w-sm text-[#fbf5ea]/80">{first.body}</p>
+              <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-[#fbf5ea]/90">{first.body}</p>
             </div>
           </div>
 
           {rest.map((item) => {
             const Icon = AMENITY_ICONS[item.icon];
             return (
-              <div key={item.title} className="rounded-3xl border border-[#16231f]/10 bg-[#fbf5ea] p-6">
+              <div key={item.title} className="flex min-h-[150px] flex-col justify-between rounded-3xl border border-[#16231f]/10 bg-[#fbf5ea] p-6">
                 <Icon className="h-7 w-7 text-[#c05a2c]" />
-                <h3 className="font-display mt-4 text-lg text-[#16231f]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#16231f]/70">{item.body}</p>
+                <div>
+                  <h3 className="font-display mt-4 text-lg text-[#16231f]">{item.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-[#16231f]/80">{item.body}</p>
+                </div>
               </div>
             );
           })}
@@ -697,7 +776,7 @@ function Gallery() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-3xl leading-tight text-[#16231f] sm:text-4xl">{t.gallery.heading}</h2>
-          <p className="max-w-xs text-sm text-[#16231f]/60">{t.gallery.sub}</p>
+          <p className="max-w-xs text-sm text-[#16231f]/75">{t.gallery.sub}</p>
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -746,7 +825,7 @@ function Gallery() {
           </button>
           <figure className="lightbox-figure max-w-3xl" onClick={(e) => e.stopPropagation()}>
             <img src={GALLERY[openIndex].img} alt="" className="max-h-[75vh] w-full rounded-xl object-contain" />
-            <figcaption className="mt-3 text-center text-sm text-[#fbf5ea]/80">
+            <figcaption className="mt-3 text-center text-sm text-[#fbf5ea]/90">
               {lang === "en" ? GALLERY[openIndex].en : GALLERY[openIndex].es}
             </figcaption>
           </figure>
@@ -782,7 +861,7 @@ function Reviews() {
             <h2 className="font-display max-w-md text-3xl leading-tight text-[#16231f] sm:text-4xl">
               {t.reviews.heading}
             </h2>
-            <p className="mt-3 max-w-md text-sm text-[#16231f]/65">{t.reviews.sub}</p>
+            <p className="mt-3 max-w-md text-sm text-[#16231f]/80">{t.reviews.sub}</p>
           </div>
 
           <a
@@ -792,7 +871,7 @@ function Reviews() {
             className="flex items-center gap-3 rounded-2xl border border-[#16231f]/12 px-5 py-3"
           >
             <span className="font-display text-3xl text-[#16231f]">{GOOGLE_RATING}</span>
-            <span className="flex flex-col text-xs text-[#16231f]/65">
+            <span className="flex flex-col text-[13px] text-[#16231f]/80">
               <span className="flex items-center gap-0.5 text-[#d9a441]">
                 {Array.from({ length: 5 }).map((_, i) => <IconStar key={i} className="h-3 w-3" />)}
               </span>
@@ -820,7 +899,7 @@ function Reviews() {
                     href={r.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-[#0e5c55] underline-offset-2 hover:underline"
+                    className="text-[13px] font-medium text-[#0e5c55] underline-offset-2 hover:underline"
                   >
                     {t.reviews.readOnGoogle}
                   </a>
@@ -852,21 +931,21 @@ function Location() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div>
           <h2 className="font-display text-3xl leading-tight text-[#16231f] sm:text-4xl">{t.location.heading}</h2>
-          <p className="mt-4 max-w-sm leading-relaxed text-[#16231f]/70">{t.location.body}</p>
+          <p className="mt-4 max-w-sm leading-relaxed text-[#16231f]/85">{t.location.body}</p>
 
           <div className="mt-8 space-y-5">
             <div className="flex gap-3">
               <IconPin className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#c05a2c]" />
               <div>
-                <p className="text-xs uppercase tracking-wide text-[#16231f]/50">{t.location.addressLabel}</p>
-                <p className="text-sm text-[#16231f]/85">{ADDRESS}</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-[#16231f]/60">{t.location.addressLabel}</p>
+                <p className="text-[15px] text-[#16231f]/90">{ADDRESS}</p>
               </div>
             </div>
             <div className="flex gap-3">
               <IconChat className="mt-0.5 h-5 w-5 flex-shrink-0 text-[#c05a2c]" />
               <div>
-                <p className="text-xs uppercase tracking-wide text-[#16231f]/50">{t.location.phoneLabel}</p>
-                <p className="text-sm text-[#16231f]/85">{PHONE_DISPLAY}</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-[#16231f]/60">{t.location.phoneLabel}</p>
+                <p className="text-[15px] text-[#16231f]/90">{PHONE_DISPLAY}</p>
               </div>
             </div>
           </div>
@@ -897,10 +976,10 @@ function CtaBand() {
     <section className="bg-[#0a3f3b] py-20 text-[#fbf5ea]">
       <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
         <h2 className="font-display text-3xl leading-tight sm:text-4xl">{t.cta.heading}</h2>
-        <p className="mt-4 text-[#fbf5ea]/75">{t.cta.body}</p>
+        <p className="mt-4 text-[16px] text-[#fbf5ea]/85">{t.cta.body}</p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <WhatsAppLink variant="onDark">{t.cta.button}</WhatsAppLink>
-          <span className="text-sm text-[#fbf5ea]/60">{PHONE_DISPLAY}</span>
+          <span className="text-sm text-[#fbf5ea]/75">{PHONE_DISPLAY}</span>
         </div>
       </div>
     </section>
@@ -924,31 +1003,50 @@ function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 sm:grid-cols-3">
         <div>
           <p className="font-display text-xl text-[#0e5c55]">Casa Bahía</p>
-          <p className="mt-3 max-w-xs text-sm text-[#16231f]/65">{t.footer.tagline}</p>
+          <p className="mt-3 max-w-xs text-sm text-[#16231f]/80">{t.footer.tagline}</p>
           {/* REPLACE: social links are placeholders */}
-          <div className="mt-4 flex gap-3 text-xs text-[#16231f]/50">
+          <div className="mt-4 flex gap-3 text-sm text-[#16231f]/65">
             <a href="#" className="hover:text-[#0e5c55]">Instagram</a>
             <a href="#" className="hover:text-[#0e5c55]">Facebook</a>
           </div>
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-[#16231f]/50">{t.footer.quickLinks}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[#16231f]/60">{t.footer.quickLinks}</p>
           <ul className="mt-3 space-y-2">
             {links.map(([href, label]) => (
-              <li key={href}><a href={href} className="text-sm text-[#16231f]/70 hover:text-[#0e5c55]">{label}</a></li>
+              <li key={href}><a href={href} className="text-sm text-[#16231f]/80 hover:text-[#0e5c55]">{label}</a></li>
             ))}
           </ul>
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-[#16231f]/50">{t.footer.contact}</p>
-          <p className="mt-3 text-sm text-[#16231f]/70">{ADDRESS}</p>
-          <p className="mt-1 text-sm text-[#16231f]/70">{PHONE_DISPLAY}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[#16231f]/60">{t.footer.contact}</p>
+          <p className="mt-3 text-sm text-[#16231f]/85">{ADDRESS}</p>
+          <p className="mt-1 text-sm text-[#16231f]/85">{PHONE_DISPLAY}</p>
         </div>
       </div>
-      <p className="mx-auto mt-12 max-w-6xl px-5 text-xs text-[#16231f]/40 sm:px-8">
+      <p className="mx-auto mt-12 max-w-6xl px-5 text-xs text-[#16231f]/55 sm:px-8">
         © {new Date().getFullYear()} Casa Bahía. {t.footer.rights}
       </p>
     </footer>
+  );
+}
+
+/* ───────────────────────── Floating WhatsApp widget ───────────────────────── */
+
+function FloatingWhatsApp() {
+  const { t } = useLang();
+  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.whatsappMessage)}`;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={t.navCta}
+      className="whatsapp-fab fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.5)] sm:bottom-7 sm:right-7"
+    >
+      <span className="whatsapp-fab-ring" aria-hidden="true" />
+      <IconWhatsAppGlyph className="relative h-7 w-7" />
+    </a>
   );
 }
 
@@ -970,6 +1068,7 @@ function Page() {
         <CtaBand />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 }
