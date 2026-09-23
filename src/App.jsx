@@ -1,6 +1,6 @@
 /**
  * ───────────────────────────────────────────────────────────────────────
- * Casa Bahía — Santa Marta apartment landing page
+ * Apartamento Martiniano — Santa Marta apartment landing page
  * ───────────────────────────────────────────────────────────────────────
  *
  * BEFORE THIS RUNS, READ THIS:
@@ -20,7 +20,7 @@
  *      gallery-exterior.jpg
  *
  * 2) DUMMY DATA — search this file for "REPLACE" to find every value
- *    that's a placeholder: the business name "Casa Bahía", the hero/about
+ *    that's a placeholder: the business name "Apartamento Martiniano", the hero/about
  *    copy, the about-section stats, the WhatsApp prefilled message, and
  *    the footer social links. The address, phone number, Google rating,
  *    review count, business-profile link, and all four customer reviews
@@ -34,14 +34,15 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import hero from "./assets/hero.jpg";
-import about1 from "./assets/about-1.jpg";
-import about2 from "./assets/about-2.jpg";
+import about1 from "./assets/gallery-pool.jpg";
+import about2 from "./assets/gallery-bedroom.jpg";
 import galleryPool from "./assets/gallery-pool.jpg";
 import galleryLiving from "./assets/gallery-living.jpg";
 import galleryBedroom from "./assets/gallery-bedroom.jpg";
 import galleryKitchen from "./assets/gallery-kitchen.jpg";
-import galleryTerrace from "./assets/gallery-terrace.jpg";
-import galleryExterior from "./assets/gallery-exterior.jpg";
+import galleryCowork from "./assets/gallery-cowork.jpg";
+import galleryDinning from "./assets/gallery-eat.jpg";
+import galleryDishing from "./assets/gallery-dishing.jpg"
 
 /* ───────────────────────── Real business data ───────────────────────── */
 
@@ -91,8 +92,9 @@ const GALLERY = [
   { id: "living", img: galleryLiving, es: "Sala y área social", en: "Living & social area", tall: false },
   { id: "bedroom", img: galleryBedroom, es: "Habitación", en: "Bedroom", tall: false },
   { id: "kitchen", img: galleryKitchen, es: "Cocina", en: "Kitchen", tall: true },
-  { id: "terrace", img: galleryTerrace, es: "Terraza", en: "Terrace", tall: false },
-  { id: "exterior", img: galleryExterior, es: "Fachada", en: "Exterior", tall: false },
+  { id: "terrace", img: galleryCowork, es: "Zona de trabajo", en: "work area", tall: false },
+  { id: "exterior", img: galleryDinning, es: "Comedor", en: "dining room", tall: false },
+  { id: "dishing", img: galleryDishing, es: "Lavandería", en: "laundry", tall: false}
 ];
 
 /* ─────────────────────────── Translations ─────────────────────────── */
@@ -131,7 +133,7 @@ const dict = {
         { icon: "shield", title: "Limpio y seguro", body: "Bioseguridad y limpieza cuidadas al detalle en cada estadía." },
       ],
     },
-    gallery: { heading: "Así es el apartamento", sub: "Fotos reales del espacio — reemplaza estas por las tuyas." },
+    gallery: { heading: "Así es el apartamento", sub: "Fotos reales del apartamento" },
     reviews: {
       heading: "Lo que dicen quienes ya se hospedaron",
       sub: "Reseñas reales, verificadas en Google. Puedes leerlas directamente en el perfil del negocio.",
@@ -190,7 +192,7 @@ const dict = {
         { icon: "shield", title: "Clean & secure", body: "Biosecurity and cleanliness looked after in careful detail on every stay." },
       ],
     },
-    gallery: { heading: "Take a look inside", sub: "Real photos of the space — swap these for your own." },
+    gallery: { heading: "Take a look inside", sub: "Real photos of the apartment" },
     reviews: {
       heading: "What past guests say",
       sub: "Real reviews, verified on Google. You can read them directly on the business profile.",
@@ -500,7 +502,7 @@ function Header() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <a href="#home" className="font-display text-xl tracking-tight text-[#0e5c55]">
-          Casa Bahía {/* REPLACE with your real business name */}
+          Apartamento Martiniano {/* REPLACE with your real business name */}
         </a>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -1002,12 +1004,11 @@ function Footer() {
     <footer className="bg-[#f1e7d3] pb-10 pt-16">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 sm:grid-cols-3">
         <div>
-          <p className="font-display text-xl text-[#0e5c55]">Casa Bahía</p>
+          <p className="font-display text-xl text-[#0e5c55]">Apartamento Martiniano</p>
           <p className="mt-3 max-w-xs text-sm text-[#16231f]/80">{t.footer.tagline}</p>
           {/* REPLACE: social links are placeholders */}
           <div className="mt-4 flex gap-3 text-sm text-[#16231f]/65">
-            <a href="#" className="hover:text-[#0e5c55]">Instagram</a>
-            <a href="#" className="hover:text-[#0e5c55]">Facebook</a>
+            <a href="https://www.facebook.com/share/1EMT93SFPs/" className="hover:text-[#0e5c55]">Facebook</a>
           </div>
         </div>
         <div>
@@ -1025,7 +1026,7 @@ function Footer() {
         </div>
       </div>
       <p className="mx-auto mt-12 max-w-6xl px-5 text-xs text-[#16231f]/55 sm:px-8">
-        © {new Date().getFullYear()} Casa Bahía. {t.footer.rights}
+        © {new Date().getFullYear()} Apartamento Martiniano. {t.footer.rights}
       </p>
     </footer>
   );
