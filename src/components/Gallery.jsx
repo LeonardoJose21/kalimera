@@ -92,7 +92,7 @@ export default function Gallery({lang, t}) {
           <div className="overflow-hidden">
             <div
               className="flex -mx-2 transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)]"
-              style={{ transform: `translateX(-${index * (100 / perView)}%)` }}
+              style={{ transform: `translateX(-${index * (100 / perView)}%)`, touchAction: "pan-y" }}
             >
               {GALLERY.map((item) => (
                 <div key={item.id} className="flex-shrink-0 px-2" style={{ flex: `0 0 ${100 / perView}%` }}>
@@ -149,7 +149,7 @@ export default function Gallery({lang, t}) {
         </div>
       </div>
 
-      {openId !== null && (
+      {openId !== null && openIndex !== -1 && (
         <div
           className="lightbox-backdrop fixed inset-0 z-50 flex items-center justify-center bg-[#16231f]/90 px-4"
           role="dialog"
