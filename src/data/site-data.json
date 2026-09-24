@@ -1,0 +1,10 @@
+{
+  "rating": 4.9,
+  "reviewCount": 23,
+  "pricing": [
+    { "id": "p1", "min": 1, "max": 2, "priceCOP": 150000 },
+    { "id": "p2", "min": 3, "max": 4, "priceCOP": 200000 },
+    { "id": "p3", "min": 5, "max": 8, "priceCOP": 300000 },
+    { "id": "p4", "min": 9, "max": null, "priceCOP": 350000 }
+  ]
+}

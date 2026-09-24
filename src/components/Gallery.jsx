@@ -1,83 +1,193 @@
-import tile1 from "../assets/tile1_hd.webp";
-import tile2 from "../assets/tile2_hd.webp";
-import tile3 from "../assets/tile3_hd.webp";
-import tile4 from "../assets/tile4_hd.webp";
-import tile5 from "../assets/tile5_hd.webp";
-import tile6 from "../assets/tile6_hd.webp";
-import tile7 from "../assets/tile7_hd.webp";
-import { useReveal } from "../lib/useReveal";
+import galleryPool from "../assets/gallery-pool.jpg";
+import galleryLiving from "../assets/gallery-living.jpg";
+import galleryBedroom from "../assets/gallery-bedroom.jpg";
+import galleryKitchen from "../assets/gallery-kitchen.jpg";
+import galleryCowork from "../assets/gallery-cowork.jpg";
+import galleryDinning from "../assets/gallery-eat.jpg";
+import galleryDishing from "../assets/gallery-dishing.jpg"
+import { useEffect, useState } from "react";
+import { useItemsPerView } from "../utils/UseItemsPerView";
 
-const PHOTOS = [
-  {
-    src: tile5,
-    alt: "Guías subiendo entre las paredes de un cañón angosto cerca de Melgar, Tolima",
-    span: "sm:col-span-2 sm:row-span-2",
-  },
-  {
-    src: tile7,
-    alt: "Dos guías de Kamaly Aventuras con uniforme verde de la marca al aire libre",
-    span: "sm:col-span-2",
-  },
-  { src: tile1, alt: "Descenso en rappel por una cascada en Melgar, Tolima" },
-  {
-    src: tile2,
-    alt: "Guía de Kamaly Aventuras sonriendo con casco blanco antes del descenso",
-  },
-  {
-    src: tile3,
-    alt: "Torrentismo en cascada con casco verde y arnés de seguridad",
-  },
-  {
-    src: tile4,
-    alt: "Descenso técnico entre rocas dentro de un cañón del Tolima",
-  },
-  {
-    src: tile6,
-    alt: "Revisión del equipo de cuerdas y arnés antes de bajar al cañón",
-  },
+const GALLERY = [
+  { id: "pool", img: galleryPool, es: "La piscina", en: "The pool", tall: true },
+  { id: "living", img: galleryLiving, es: "Sala y área social", en: "Living & social area", tall: false },
+  { id: "bedroom", img: galleryBedroom, es: "Habitación", en: "Bedroom", tall: false },
+  { id: "kitchen", img: galleryKitchen, es: "Cocina", en: "Kitchen", tall: true },
+  { id: "terrace", img: galleryCowork, es: "Zona de trabajo", en: "workspace", tall: false },
+  { id: "exterior", img: galleryDinning, es: "Comedor", en: "dining room", tall: false },
+  { id: "dishing", img: galleryDishing, es: "Lavandería", en: "laundry", tall: false}
 ];
 
-export default function Gallery() {
-  const { ref, visible } = useReveal();
+function IconChevron({ className, dir = "left" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...iconBase}>
+      <path d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
+    </svg>
+  );
+}
+
+const iconBase = { fill: "none", stroke: "currentColor", strokeWidth: 1.75, strokeLinecap: "round", strokeLinejoin: "round" };
+
+export default function Gallery({lang, t}) {
+  
+  const perView = useItemsPerView();
+  const maxIndex = Math.max(0, GALLERY.length - perView);
+  const [index, setIndex] = useState(0);
+  const [openId, setOpenId] = useState(null);
+  const [paused, setPaused] = useState(false);
+
+  const openIndex = GALLERY.findIndex((g) => g.id === openId);
+  const goTo = (i) => setIndex(((i % (maxIndex + 1)) + (maxIndex + 1)) % (maxIndex + 1));
+  const next = () => goTo(index + 1);
+  const prev = () => goTo(index - 1);
+
+  useEffect(() => {
+    setIndex((i) => Math.min(i, maxIndex));
+  }, [maxIndex]);
+
+  useEffect(() => {
+    if (paused || openId !== null) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i >= maxIndex ? 0 : i + 1));
+    }, 4500);
+    return () => clearInterval(id);
+  }, [paused, openId, maxIndex]);
+
+  const close = () => setOpenId(null);
+  const step = (delta) => {
+    if (openIndex === -1) return;
+    const nextI = (openIndex + delta + GALLERY.length) % GALLERY.length;
+    setOpenId(GALLERY[nextI].id);
+  };
+
+  useEffect(() => {
+    if (openId === null) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") step(1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openId]);
 
   return (
-    <section id="galeria" className="bg-[var(--paper)] py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="max-w-2xl">
-          <h2 className="font-display text-4xl text-[var(--ink)] sm:text-5xl">
-            Así se ve un domingo en Kamaly
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-            Fotos reales de nuestras salidas, sin producción de estudio.
-          </p>
+    <section id="gallery" className="bg-[#f1e7d3] py-20">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <h2 className="font-display text-3xl leading-tight text-[#16231f] sm:text-4xl">{t.gallery.heading}</h2>
+          <p className="max-w-xs text-sm text-[#16231f]/75">{t.gallery.sub}</p>
         </div>
 
         <div
-          ref={ref}
-          className="mt-10 grid grid-cols-1 gap-3 sm:auto-rows-[160px] sm:grid-cols-4 sm:gap-4"
+          className="relative mx-auto mt-10 w-full max-w-sm sm:max-w-2xl lg:max-w-5xl"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
         >
-          {PHOTOS.map((photo, i) => (
+          <div className="overflow-hidden">
             <div
-              key={photo.src}
-              className={`group overflow-hidden rounded-2xl ${
-                photo.span ?? ""
-              } ${visible ? "reveal" : "opacity-0"}`}
-              style={{ animationDelay: visible ? `${i * 55}ms` : undefined }}
+              className="flex -mx-2 transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)]"
+              style={{ transform: `translateX(-${index * (100 / perView)}%)` }}
             >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] ${
-                  i === 0
-                    ? "aspect-[4/5] sm:aspect-auto"
-                    : "aspect-square sm:aspect-auto"
+              {GALLERY.map((item) => (
+                <div key={item.id} className="flex-shrink-0 px-2" style={{ flex: `0 0 ${100 / perView}%` }}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenId(item.id)}
+                    className="group relative block w-full overflow-hidden rounded-3xl"
+                    aria-label={lang === "en" ? item.en : item.es}
+                  >
+                    <img
+                      src={item.img}
+                      alt={lang === "en" ? item.en : item.es}
+                      className="aspect-[4/5] w-full object-cover"
+                    />
+                    <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#16231f]/70 to-transparent px-4 pb-3 pt-8 text-left text-sm font-medium text-white">
+                      {lang === "en" ? item.en : item.es}
+                    </span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Previous"
+            className="absolute left-1 top-1/2 -translate-y-1/2 rounded-full bg-[#fbf5ea]/90 p-2 text-[#16231f] shadow-md backdrop-blur transition-colors hover:bg-[#fbf5ea] sm:-left-4"
+          >
+            <IconChevron dir="left" className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Next"
+            className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-[#fbf5ea]/90 p-2 text-[#16231f] shadow-md backdrop-blur transition-colors hover:bg-[#fbf5ea] sm:-right-4"
+          >
+            <IconChevron dir="right" className="h-4 w-4" />
+          </button>
+
+          <div className="mt-4 flex justify-center gap-2">
+            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === index ? "w-6 bg-[#0e5c55]" : "w-1.5 bg-[#16231f]/25"
                 }`}
               />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+      {openId !== null && (
+        <div
+          className="lightbox-backdrop fixed inset-0 z-50 flex items-center justify-center bg-[#16231f]/90 px-4"
+          role="dialog"
+          aria-modal="true"
+          onClick={close}
+        >
+          <button
+            type="button"
+            onClick={close}
+            aria-label="Close"
+            className="absolute right-5 top-5 rounded-full bg-[#fbf5ea]/10 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20"
+          >
+            <IconClose className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); step(-1); }}
+            aria-label="Previous"
+            className="absolute left-3 rounded-full bg-[#fbf5ea]/10 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20 sm:left-6"
+          >
+            <IconChevron dir="left" className="h-6 w-6" />
+          </button>
+          <figure className="lightbox-figure max-w-3xl" onClick={(e) => e.stopPropagation()}>
+            <img src={GALLERY[openIndex].img} alt="" className="max-h-[75vh] w-full rounded-xl object-contain" />
+            <figcaption className="mt-3 text-center text-sm text-[#fbf5ea]/90">
+              {lang === "en" ? GALLERY[openIndex].en : GALLERY[openIndex].es}
+            </figcaption>
+          </figure>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); step(1); }}
+            aria-label="Next"
+            className="absolute right-3 rounded-full bg-[#fbf5ea]/10 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20 sm:right-6"
+          >
+            <IconChevron dir="right" className="h-6 w-6" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }

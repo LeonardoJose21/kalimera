@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+.env
+# src/data/site-data.json
 dist-ssr
 *.local
 
