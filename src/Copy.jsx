@@ -16,10 +16,9 @@ export const copy = {
     skip: "Ir al contenido",
     hero: {
       kicker: "Santa Marta, Magdalena",
-      // REPLACE: headline/subhead copy, written from the reviews, but yours to make more specific
-      title: "Un apartamento con piscina, a un paso del mar en Santa Marta",
-      subtitle:
-        "Un espacio propio para descansar en familia, en pareja o con amigos, cerca de todo lo que hace especial a Santa Marta.",
+      // dict.es.hero
+title: "Un apartamento con piscina en el corazón de Santa Marta",
+subtitle: "Un espacio propio para descansar en familia, en pareja o con amigos, a minutos de todo lo que hace especial a Santa Marta.",
       primaryCta: "Reservar",
       secondaryCta: "Ver comodidades",
       ratingLabel: "en Google",
@@ -66,7 +65,7 @@ export const copy = {
         {
           icon: "desk",
           title: "WiFi y zona de trabajo",
-          body: "Conexión WiFi y computador de escritorio para quienes viajan por trabajo.",
+          body: "Conexión WiFi y espacio de trabajo para quienes viajan por trabajo.",
         },
         {
           icon: "users",
@@ -116,7 +115,7 @@ export const copy = {
       rights: "Todos los derechos reservados.",
     },
     whatsappMessage:
-      "Hola, quiero consultar disponibilidad para el apartamento en Santa Marta.",
+      "Hola, vengo des su sitio web. Quiero consultar disponibilidad para el apartamento en Santa Marta.",
     langName: "Español",
   },
   en: {
@@ -133,10 +132,10 @@ export const copy = {
     skip: "Skip to content",
     hero: {
       kicker: "Santa Marta, Magdalena",
-      title: "A poolside apartment, steps from the sea in Santa Marta",
-      subtitle:
-        "A private space to unwind with family, a partner, or friends, close to everything that makes Santa Marta special.",
-      primaryCta: "Book",
+      // dict.en.hero
+title: "A poolside apartment in the heart of Santa Marta",
+subtitle: "A private space to unwind with family, a partner, or friends — minutes from everything that makes Santa Marta special.",
+primaryCta: "Book",
       secondaryCta: "See amenities",
       ratingLabel: "on Google",
       ratingLinkLabel: `See ${GOOGLE_REVIEW_COUNT} reviews`,
@@ -182,7 +181,7 @@ export const copy = {
         {
           icon: "desk",
           title: "WiFi & workspace",
-          body: "WiFi and a desktop computer for anyone traveling for work.",
+          body: "WiFi and workspace for anyone traveling for work.",
         },
         {
           icon: "users",
@@ -230,7 +229,7 @@ export const copy = {
       rights: "All rights reserved.",
     },
     whatsappMessage:
-      "Hi, I'd like to check availability for the apartment in Santa Marta.",
+      "Hi, I come from your website. I'd like to check availability for the apartment in Santa Marta.",
     langName: "English",
   },
 };

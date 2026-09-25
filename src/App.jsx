@@ -772,8 +772,10 @@ function PricingSection() {
     return lang === "es" ? `${p.min} a ${p.max} personas` : `${p.min} to ${p.max} guests`;
   };
 
-  const dec = () => setGuests((g) => Math.max(1, g - 1));
-  const inc = () => setGuests((g) => Math.min(20, g + 1));
+  const MAX_GUESTS = 12;
+
+  const dec = () => setGuests((g) => Math.max(1, Number(g) || 1) - 1);
+  const inc = () => setGuests((g) => Math.min(MAX_GUESTS, Math.max(1, Number(g) || 1) + 1));
 
   const handleGuestsInput = (e) => {
     const raw = e.target.value;
@@ -782,7 +784,7 @@ function PricingSection() {
       return;
     }
     const v = parseInt(raw, 10);
-    if (!Number.isNaN(v)) setGuests(Math.min(20, Math.max(1, v)));
+    if (!Number.isNaN(v)) setGuests(Math.min(MAX_GUESTS, Math.max(1, v)));
   };
 
   const formatDateDMY = (isoDate) => {
@@ -827,7 +829,7 @@ function PricingSection() {
             <input
               type="number"
               min={1}
-              max={20}
+              max={12}
               value={guests}
               onChange={handleGuestsInput}
               onBlur={() => guests === "" && setGuests(1)}

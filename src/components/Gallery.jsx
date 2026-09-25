@@ -26,6 +26,14 @@ function IconChevron({ className, dir = "left" }) {
   );
 }
 
+function IconClose({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...iconBase}>
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
 const iconBase = { fill: "none", stroke: "currentColor", strokeWidth: 1.75, strokeLinecap: "round", strokeLinejoin: "round" };
 
 export default function Gallery({lang, t}) {
@@ -168,7 +176,7 @@ export default function Gallery({lang, t}) {
             type="button"
             onClick={(e) => { e.stopPropagation(); step(-1); }}
             aria-label="Previous"
-            className="absolute left-3 rounded-full bg-[#fbf5ea]/10 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20 sm:left-6"
+            className="absolute left-3 rounded-full bg-[#fbf5ea]/20 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20 sm:left-6"
           >
             <IconChevron dir="left" className="h-6 w-6" />
           </button>
@@ -182,7 +190,7 @@ export default function Gallery({lang, t}) {
             type="button"
             onClick={(e) => { e.stopPropagation(); step(1); }}
             aria-label="Next"
-            className="absolute right-3 rounded-full bg-[#fbf5ea]/10 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20 sm:right-6"
+            className="absolute right-3 rounded-full bg-[#fbf5ea]/20 p-2 text-[#fbf5ea] hover:bg-[#fbf5ea]/20 sm:right-6"
           >
             <IconChevron dir="right" className="h-6 w-6" />
           </button>
