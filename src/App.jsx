@@ -9,6 +9,7 @@ import { copy } from "./Copy";
 import siteData from "./data/site-data.json";
 import LazyVideo from "./components/LazyVideo";
 import EditPage from "./pages/Edit";
+import YouTubeEmbed from "./components/YoutubeEmbed";
 
 /* ───────────────────────── Real business data ───────────────────────── */
 
@@ -895,12 +896,13 @@ function VideoSection() {
         </p>
 
         <div className="mt-10 overflow-hidden rounded-3xl">
-          <LazyVideo
+          {/* <LazyVideo
             src="video/video_apto.mp4"
             poster="video/thumbnail.jpg"
             title={t.video.title}
             duration="02:00 mins"
-          />
+          /> */}
+          <YouTubeEmbed title={"Tour por el apartamento"} videoId={"MfxYlIUD2VY"} />
         </div>
       </div>
     </section>
