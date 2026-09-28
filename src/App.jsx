@@ -17,7 +17,7 @@ const PHONE_DISPLAY = "+57 301 473 7730";
 const WHATSAPP_NUMBER = "573014737730";
 const GOOGLE_PROFILE_URL = "https://maps.app.goo.gl/iMLBiynLksu4m1tt8";
 const GOOGLE_RATING = 4.9;
-const EMAIL = "nanchoj57@gmail.com";
+const EMAIL = "mariap.operativa@gmail.com";
 const MAP_EMBED_SRC = `https://www.google.com/maps?q=${encodeURIComponent(
   ADDRESS,
 )}&output=embed`;
