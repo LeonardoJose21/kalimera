@@ -13,8 +13,8 @@ import EditPage from "./pages/Edit";
 /* ───────────────────────── Real business data ───────────────────────── */
 
 const ADDRESS = "Cra. 22 #12-12, Comuna 4, Santa Marta, Magdalena";
-const PHONE_DISPLAY = "+57 301 473 7730";
-const WHATSAPP_NUMBER = "573014737730";
+const PHONE_DISPLAY = "+57 301 714 7958";
+const WHATSAPP_NUMBER = "573017147958";
 const GOOGLE_PROFILE_URL = "https://maps.app.goo.gl/iMLBiynLksu4m1tt8";
 const GOOGLE_RATING = 4.9;
 const EMAIL = "mariap.operativa@gmail.com";
