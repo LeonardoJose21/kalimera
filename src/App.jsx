@@ -772,7 +772,7 @@ function PricingSection() {
     return lang === "es" ? `${p.min} a ${p.max} personas` : `${p.min} to ${p.max} guests`;
   };
 
-  const MAX_GUESTS = 12;
+  const MAX_GUESTS = 10;
 
   const dec = () => setGuests((g) => Math.max(1, Number(g) || 1) - 1);
   const inc = () => setGuests((g) => Math.min(MAX_GUESTS, Math.max(1, Number(g) || 1) + 1));
